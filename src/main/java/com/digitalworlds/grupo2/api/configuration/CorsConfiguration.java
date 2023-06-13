@@ -14,7 +14,7 @@ public class CorsConfiguration {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api2/**").allowedOrigins("http://localhost:5173")
-						.allowedMethods("GET", "POST", "PUT", "DELETE").maxAge(3600);
+						.allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS").maxAge(3600);
 			}
 		};
 	}
