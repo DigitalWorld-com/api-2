@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api2/movie")
+@RequestMapping("/api2/movies")
 @AllArgsConstructor
 @Slf4j
 public class MovieController {
 
     MovieService service;
 
-    @GetMapping("/{movieName}")
+    @GetMapping("/movie/{movieName}")
     public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
         log.info("Buscando pelicula: " + movieName);
 
