@@ -1,4 +1,4 @@
-package com.digitalworlds.grupo2.api.dtos;
+package com.digitalworlds.grupo2.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MovieApi {
+public class Movie {
 
 	String title;
 	String overview;
