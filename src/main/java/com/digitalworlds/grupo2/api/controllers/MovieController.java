@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api2/movies")
 @AllArgsConstructor
 @Slf4j
 public class MovieController {
 
-    MovieService service;
+	MovieService service;
 
-    @GetMapping("/movie/{movieName}")
-    public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
-        log.info("Buscando pelicula: " + movieName);
+	@GetMapping("/movie/{movieName}")
+	public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
+		log.info("Buscando pelicula: " + movieName);
+		var response = service.getMoviesByTitle(movieName);
+		log.info("Peliculas encontradas.");
+		return ResponseEntity.ok(response);
+	}
 
-        var response = MovieResponse.builder().movies(service.getMoviesByTitle(movieName)).build();
-
-        log.info("Peliculas encontradas.");
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/coming")
-    public ResponseEntity<MovieResponse> getComingSoonMovies() {
-        return ResponseEntity.ok(service.getComingSon());
-    }
+	@GetMapping("/coming")
+	public ResponseEntity<MovieResponse> getComingSoonMovies() {
+		log.info("Buscando proximas peliculas.");
+		var response = ResponseEntity.ok(service.getComingSon());
+		log.info("Proximas peliculas encontradas.");
+		return response;
+	}
 
 }
