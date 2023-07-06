@@ -2,7 +2,7 @@ package com.digitalworlds.grupo2.api.converters;
 
 import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.entities.Movies;
+import com.digitalworlds.grupo2.api.models.Movies;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 

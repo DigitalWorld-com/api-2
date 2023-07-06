@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 
 import com.digitalworlds.grupo2.api.converters.MoviesConverter;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.entities.Movies;
+import com.digitalworlds.grupo2.api.models.Movies;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

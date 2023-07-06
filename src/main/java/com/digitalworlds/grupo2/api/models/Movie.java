@@ -1,4 +1,4 @@
-package com.digitalworlds.grupo2.api.entities;
+package com.digitalworlds.grupo2.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
