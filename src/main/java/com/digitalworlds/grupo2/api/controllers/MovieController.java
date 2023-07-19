@@ -2,6 +2,7 @@ package com.digitalworlds.grupo2.api.controllers;
 
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
 import com.digitalworlds.grupo2.api.services.MovieService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class MovieController {
 	MovieService service;
 
 	@GetMapping("/movie/{movieName}")
+	@ApiOperation(value = "Busca películas por Título")
 	public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
 		log.info("Buscando pelicula: " + movieName);
 		var response = service.getMoviesByTitle(movieName);
@@ -26,7 +28,8 @@ public class MovieController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/coming")
+	@GetMapping("/comingsoon")
+	@ApiOperation(value = "Obtiene los próximos estrenos de Cine")
 	public ResponseEntity<MovieResponse> getComingSoonMovies() {
 		log.info("Buscando proximas peliculas.");
 		var response = ResponseEntity.ok(service.getComingSon());
