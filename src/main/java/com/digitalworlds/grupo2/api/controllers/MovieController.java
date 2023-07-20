@@ -1,7 +1,10 @@
 package com.digitalworlds.grupo2.api.controllers;
 
+import com.digitalworlds.grupo2.api.dtos.DTOCountry;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
 import com.digitalworlds.grupo2.api.services.MovieService;
+import com.digitalworlds.grupo2.api.services.SVCountry;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ import java.time.LocalDate;
 public class MovieController {
 
     MovieService service;
+    SVCountry svCountry;
 
     @GetMapping("/movie/{movieName}")
     @ApiOperation(value = "Busca películas por Título")
@@ -37,15 +41,22 @@ public class MovieController {
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             @PathVariable String region) {
-        log.info("<<<<< ---- COMING_SOON ---- >>>>>");
+        log.info("<<<<< ---- /comingsoon ---- >>>>>");
         log.info("from: " + from);
         log.info("to: " + to);
         log.info("region: " + region);
         log.info("-----------------------");
-        log.info("Buscando proximas peliculas...");
-        var response = ResponseEntity.ok(service.getComingSoon());
-        log.info("Proximas peliculas encontradas.");
-        log.info("<//// ---- COMING_SOON ---- ////>[OK]");
+        ResponseEntity<MovieResponse> response = ResponseEntity.ok(service.getComingSoon());
+        log.info("<//// ---- /comingsoon ---- ////>[OK]");
+        return response;
+    }
+
+    @GetMapping(value = {"/countries"})
+    @ApiOperation(value = "Obtiene las regiones (ISO 3166-1) y sus respectivas banderas")
+    public ResponseEntity<DTOCountry[]> getAllCountries() throws JsonProcessingException {
+        log.info("<<<<< ---- /countries ---- >>>>>");
+        ResponseEntity<DTOCountry[]> response = ResponseEntity.ok(svCountry.getAllCountries());
+        log.info("<//// ---- /countries ---- ////>[OK]");
         return response;
     }
 
