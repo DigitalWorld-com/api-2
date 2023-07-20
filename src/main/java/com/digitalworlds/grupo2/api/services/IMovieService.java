@@ -7,6 +7,6 @@ public interface IMovieService {
 
     public MovieResponse getMoviesByTitle(String movieName);
 
-    public MovieResponse getComingSon();
+    public MovieResponse getComingSoon();
 
 }

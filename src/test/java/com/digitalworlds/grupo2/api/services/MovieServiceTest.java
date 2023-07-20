@@ -68,7 +68,7 @@ public class MovieServiceTest {
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
-		MovieResponse result = movieService.getComingSon();
+		MovieResponse result = movieService.getComingSoon();
 
 		assertEquals(movieDto, result.getMovies().get(0));
 	}
@@ -85,7 +85,7 @@ public class MovieServiceTest {
 		ArgumentCaptor<List<EMovie>> captor = ArgumentCaptor.forClass(List.class);
 		when(rMovie.saveAll(captor.capture())).thenReturn(new ArrayList<>());
 		
-		MovieResponse result = movieService.getComingSon();
+		MovieResponse result = movieService.getComingSoon();
 		
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
@@ -106,7 +106,7 @@ public class MovieServiceTest {
 
 		when(rMovie.findByTitle(any())).thenReturn(new ArrayList<>());
 
-		movieService.getComingSon();
+		movieService.getComingSoon();
 
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
@@ -128,7 +128,7 @@ public class MovieServiceTest {
 
 		when(rMovie.findByTitle(any())).thenReturn(new ArrayList<>());
 
-		movieService.getComingSon();
+		movieService.getComingSoon();
 
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();

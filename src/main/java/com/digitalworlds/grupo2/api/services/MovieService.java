@@ -36,7 +36,7 @@ public class MovieService implements IMovieService {
      * Busca las proximas peliculas
      */
     @Override
-    public MovieResponse getComingSon() {
+    public MovieResponse getComingSoon() {
         var url = "https://api.themoviedb.org/3/discover/movie?"
                 + "include_adult=false"
                 + "&include_video=false"

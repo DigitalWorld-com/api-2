@@ -68,7 +68,7 @@ class MovieControllerTest {
 	@Test
 	@DisplayName("Cuando busco las proximas peliculas me devuelve la pelicula que saldra.")
 	void testGetComingSoonMovies()   throws Exception {
-		when(service.getComingSon()).thenReturn(response);
+		when(service.getComingSoon()).thenReturn(response);
 		var jsonResponse = "{\"movies\": [{\"title\": \"pelicula\",\"description\": \"aca hay una peli piola\",\"imageURL\": \"url\"}]}";
 		mvc.perform(get("/api2/movies/coming")
 			      .contentType(MediaType.APPLICATION_JSON))
