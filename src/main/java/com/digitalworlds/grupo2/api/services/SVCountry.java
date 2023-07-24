@@ -13,27 +13,41 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class SVCountry implements ICountry {
+
     private IHttpService http;
     private ObjectMapper oMapper;
     private ModelMapper mMapper;
     private ResourceLoader resourceLoader;
 
     @Override
-    public DTOCountry[] getAllCountries() throws JsonProcessingException {
-        String bodyResponse = http.getBody("https://api.themoviedb.org/3/configuration/countries");
+    public DTOCountry[] getAllCountries() {
+        try {
+            String bodyResponse = http.getBody("https://api.themoviedb.org/3/configuration/countries");
 
-        Country[] arrayCountry = oMapper.readValue(bodyResponse, Country[].class);
-        DTOCountry[] arrayDtoCountry = mMapper.map(arrayCountry, DTOCountry[].class);
+            Country[] arrayCountry = oMapper.readValue(bodyResponse, Country[].class);
+            DTOCountry[] arrayDtoCountry = mMapper.map(arrayCountry, DTOCountry[].class);
 
-        Arrays.asList(arrayDtoCountry).forEach(
-                dtoCountry -> this.setCountryFlag(dtoCountry));
+            //Agrego icono de bandera
+            List<DTOCountry> listDtoCountry = Arrays.asList(arrayDtoCountry);
+            listDtoCountry.forEach(dtoCountry -> this.setCountryFlag(dtoCountry));
+            //Filtro aquellas sin bandera
+            listDtoCountry = listDtoCountry.stream()
+                    .filter(dtoCountry -> null != dtoCountry.getCountryFlag())
+                    .collect(Collectors.toList());
 
-        return arrayDtoCountry;
+            arrayDtoCountry = new DTOCountry[listDtoCountry.size()];
+            return listDtoCountry.toArray(arrayDtoCountry);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void setCountryFlag(DTOCountry dtoCountry) {

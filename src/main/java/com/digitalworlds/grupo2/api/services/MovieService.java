@@ -1,22 +1,30 @@
 package com.digitalworlds.grupo2.api.services;
 
+import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.entities.EConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.mappers.MovieMapper;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MovieService implements IMovieService {
 
     IHttpService http;
     RMovie rMovie;
+    SVConfig svConfig;
 
     /**
      * Busca peliculas por nombre de pelicula
@@ -27,7 +35,7 @@ public class MovieService implements IMovieService {
     public MovieResponse getMoviesByTitle(String movieName) {
         var url = "https://api.themoviedb.org/3/search/movie?query=" + movieName
                 + "&include_adult=false"
-                + "&language=es-AR"
+                + "&language=es"
                 + "&page=1";
         return getMoviesByUrl(url);
     }
@@ -35,18 +43,43 @@ public class MovieService implements IMovieService {
     /**
      * Busca las proximas peliculas
      */
-    @Override
-    public MovieResponse getComingSoon() {
+    public MovieResponse getComingSoon(String region) {
+        EConfigComing eConfigComing = svConfig.getConfigComing(region);
+        LocalDate from = LocalDate.now().minusDays(eConfigComing.getDays_before());
+        LocalDate to = LocalDate.now().plusDays(eConfigComing.getDays_after());
+        return this.getComingSoon(from, to, region, eConfigComing.getSelected_genres());
+    }
+
+    public MovieResponse getComingSoon(LocalDate from, LocalDate to, String region, String genres) {
+        log.info("-----------------------");
+        log.info("from: " + from);
+        log.info("to: " + to);
+        log.info("region: " + region);
+        log.info("genres: " + genres);
+        log.info("-----------------------");
         var url = "https://api.themoviedb.org/3/discover/movie?"
                 + "include_adult=false"
                 + "&include_video=false"
                 + "&page=1"
                 + "&sort_by=popularity.desc"
-                + "&primary_release_date.gte=2023-06-14"
-                + "&primary_release_date.lte=2023-06-21"
-                + "&language=es-AR"
-                + "&region=AR";
+                + "&primary_release_date.gte=" + from.format(DateTimeFormatter.ISO_DATE)
+                + "&primary_release_date.lte=" + to.format(DateTimeFormatter.ISO_DATE)
+                + "&language=es"
+                + "&region=" + region;
+        this.addFilterGenres(url, genres);
+        url = this.addFilterGenres(url, genres);
         return getMoviesByUrl(url);
+    }
+
+    private String addFilterGenres(String url, String genres) {
+        if (null != genres) {
+            boolean allGenres = Arrays.asList(svConfig.getAllGenres()).stream()
+                    .allMatch(dtoGenre -> genres.contains(String.valueOf(dtoGenre.getId())));
+            if (!allGenres) {
+                return url + "&genres=" + genres;
+            }
+        }
+        return url;
     }
 
     private MovieResponse getMoviesByUrl(String url) {
@@ -58,26 +91,28 @@ public class MovieService implements IMovieService {
 
     private void registerMovie(MovieResponse movieResponse) {
         List<EMovie> eMovies = new ArrayList<>();
-        movieResponse.getMovies().forEach(
-                movieDto -> {
-                    if (Boolean.FALSE.equals(this.isMovieRegistered(movieDto.getTitle()))) {
-                        String shortDesc = movieDto.getDescription().length() < 255 ?
-                                movieDto.getDescription() : movieDto.getDescription().substring(0, 255);
-                        EMovie eMovie = EMovie.builder()
-                                .title(movieDto.getTitle())
-                                .description(shortDesc)
-                                .image(movieDto.getImageURL())
-                                .insertDate(LocalDateTime.now())
-                                .build();
-                        eMovies.add(eMovie);
-                    }
-                }
-        );
+        movieResponse
+                .getMovies()
+                .forEach(
+                        movieDto -> {
+                            //Si no existe en la BD, la registro
+                            if (rMovie.findByTitle(movieDto.getTitle()).isEmpty()) {
+                                eMovies.add(this.registerMovie(movieDto));
+                            }
+                        });
         rMovie.saveAll(eMovies);
     }
 
-    private boolean isMovieRegistered(String title) {
-        return !rMovie.findByTitle(title).isEmpty();
+    private EMovie registerMovie(MovieDto movieDto) {
+        String shortDesc = movieDto.getDescription().length() < 255 ?
+                movieDto.getDescription() : movieDto.getDescription().substring(0, 255);
+        EMovie eMovie = EMovie.builder()
+                .title(movieDto.getTitle())
+                .description(shortDesc)
+                .image(movieDto.getImageURL())
+                .insertDate(LocalDateTime.now())
+                .build();
+        return eMovie;
     }
 
 }
