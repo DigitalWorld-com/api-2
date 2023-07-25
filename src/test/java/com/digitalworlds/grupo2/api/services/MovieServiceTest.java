@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.entities.EConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.mappers.MovieMapper;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
@@ -41,6 +42,9 @@ public class MovieServiceTest {
 
 	@Mock
 	MovieMapper mapper;
+
+	@Mock
+	SVConfig config;
 
 	@InjectMocks
 	private MovieService movieService;
@@ -65,6 +69,9 @@ public class MovieServiceTest {
 	@Test
 	@DisplayName("El servicio devuelve las peliculas que vienen en camino.")
 	public void testGetComingSoonAllNews() {
+		var region = "AR";
+		when(config.getConfigComing(region))
+				.thenReturn(EConfigComing.builder().region(region).days_before(7).days_after(7).build());
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
@@ -76,6 +83,12 @@ public class MovieServiceTest {
 	@Test
 	@DisplayName("El servicio si encuentra una pelicula no lo guarda en la base.")
 	public void testGetComingSoonWithFounds() {
+		var region = "AR";
+		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+                    .region(region)
+                    .days_before(7)
+                    .days_after(7)
+                    .build());
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 		when(rMovie.findByTitle(any())).thenReturn(Arrays.asList(EMovie.builder().build()));
@@ -98,6 +111,13 @@ public class MovieServiceTest {
 	@Test
 	@DisplayName("El servicio que no encuentra una pelicula lo guarda en la base con la descripcion enviada.")
 	public void testGetComingSoonWithNotFoundsWithShortDescription() {
+		var region = "AR";
+		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+                    .region(region)
+                    .days_before(7)
+                    .days_after(7)
+                    .build());
+		
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 
 		// Capturamos lo que le pasamos al saveAll
@@ -117,6 +137,12 @@ public class MovieServiceTest {
 	@Test
 	@DisplayName("El servicio que no encuentra una película lo guarda en la base con la descripción cortada.")
 	public void testGetComingSoonWithFoundsWithLongDescription() {
+		var region = "AR";
+		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+                    .region(region)
+                    .days_before(7)
+                    .days_after(7)
+                    .build());
 
 		String mockResponseLongDescription = "{\"results\": [{\"title\": \"Movie 1\", \"overview\": \"" + LONG_DESC
 				+ "\", \"poster_path\": \"/image1.jpg\"}]}";
