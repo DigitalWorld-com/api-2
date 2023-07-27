@@ -1,8 +1,9 @@
 package com.digitalworlds.grupo2.api.services;
 
+import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
+import com.digitalworlds.grupo2.api.dtos.DTOGenre;
 import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.entities.EConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.mappers.MovieMapper;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -43,14 +45,17 @@ public class MovieService implements IMovieService {
     /**
      * Busca las proximas peliculas
      */
+    @Override
     public MovieResponse getComingSoon(String region) {
-        EConfigComing eConfigComing = svConfig.getConfigComing(region);
-        LocalDate from = LocalDate.now().minusDays(eConfigComing.getDays_before());
-        LocalDate to = LocalDate.now().plusDays(eConfigComing.getDays_after());
-        return this.getComingSoon(from, to, region, eConfigComing.getSelected_genres());
+        DTOConfigComing dtoConfigComing = svConfig.getConfigComing(region);
+        LocalDate from = LocalDate.now().minusDays(dtoConfigComing.getDays_before());
+        LocalDate to = LocalDate.now().plusDays(dtoConfigComing.getDays_after());
+
+        return this.getComingSoon(from, to, region, dtoConfigComing.getSelected_genres());
     }
 
-    public MovieResponse getComingSoon(LocalDate from, LocalDate to, String region, String genres) {
+    @Override
+    public MovieResponse getComingSoon(LocalDate from, LocalDate to, String region, Integer[] genres) {
         log.info("-----------------------");
         log.info("from: " + from);
         log.info("to: " + to);
@@ -66,17 +71,22 @@ public class MovieService implements IMovieService {
                 + "&primary_release_date.lte=" + to.format(DateTimeFormatter.ISO_DATE)
                 + "&language=es"
                 + "&region=" + region;
-        this.addFilterGenres(url, genres);
         url = this.addFilterGenres(url, genres);
         return getMoviesByUrl(url);
     }
 
-    private String addFilterGenres(String url, String genres) {
+    private String addFilterGenres(String url, Integer[] genres) {
         if (null != genres) {
-            boolean allGenres = Arrays.asList(svConfig.getAllGenres()).stream()
-                    .allMatch(dtoGenre -> genres.contains(String.valueOf(dtoGenre.getId())));
+            List<DTOGenre> listDTOGenreAll = Arrays.asList(svConfig.getAllGenres());
+            List<Integer> listSelectedGenres = Arrays.asList(genres);
+            Collections.sort(listSelectedGenres);
+            boolean allGenres = listDTOGenreAll.stream()
+                    .allMatch(dtoGenre -> listSelectedGenres.contains(dtoGenre.getId()));
             if (!allGenres) {
-                return url + "&genres=" + genres;
+                url += "&genres=";
+                for (int idGenre : listSelectedGenres) {
+                    url += "|" + idGenre;
+                }
             }
         }
         return url;

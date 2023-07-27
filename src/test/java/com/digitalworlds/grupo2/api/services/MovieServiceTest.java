@@ -19,7 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.entities.EConfigComing;
+import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.mappers.MovieMapper;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
@@ -71,7 +71,7 @@ public class MovieServiceTest {
 	public void testGetComingSoonAllNews() {
 		var region = "AR";
 		when(config.getConfigComing(region))
-				.thenReturn(EConfigComing.builder().region(region).days_before(7).days_after(7).build());
+				.thenReturn(DTOConfigComing.builder().region(region).days_before(7).days_after(7).build());
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
@@ -84,7 +84,7 @@ public class MovieServiceTest {
 	@DisplayName("El servicio si encuentra una pelicula no lo guarda en la base.")
 	public void testGetComingSoonWithFounds() {
 		var region = "AR";
-		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+		when(config.getConfigComing(region)).thenReturn(DTOConfigComing.builder()
                     .region(region)
                     .days_before(7)
                     .days_after(7)
@@ -112,7 +112,7 @@ public class MovieServiceTest {
 	@DisplayName("El servicio que no encuentra una pelicula lo guarda en la base con la descripcion enviada.")
 	public void testGetComingSoonWithNotFoundsWithShortDescription() {
 		var region = "AR";
-		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+		when(config.getConfigComing(region)).thenReturn(DTOConfigComing.builder()
                     .region(region)
                     .days_before(7)
                     .days_after(7)
@@ -138,7 +138,7 @@ public class MovieServiceTest {
 	@DisplayName("El servicio que no encuentra una película lo guarda en la base con la descripción cortada.")
 	public void testGetComingSoonWithFoundsWithLongDescription() {
 		var region = "AR";
-		when(config.getConfigComing(region)).thenReturn(EConfigComing.builder()
+		when(config.getConfigComing(region)).thenReturn(DTOConfigComing.builder()
                     .region(region)
                     .days_before(7)
                     .days_after(7)

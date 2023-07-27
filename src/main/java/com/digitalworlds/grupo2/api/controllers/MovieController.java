@@ -35,7 +35,7 @@ public class MovieController {
             @ApiParam(value = "Ej. 2023-07-15", example = "2023-07-15") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @ApiParam(value = "Ej. 2023-07-31", example = "2023-07-31") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             @ApiParam(value = "Ej. AR, ES, US, etc.", example = "AR") @RequestParam String region,
-            @ApiParam(value = "Ej. |28|53", example = "|28|53") @RequestParam(required = false) String genres) {
+            @ApiParam(value = "Ej. [28, 53]", example = "[28, 53]") @RequestParam(required = false) Integer[] genres) {
         log.info("<<<<< ---- /comingsoon ---- >>>>>");
         ResponseEntity<MovieResponse> response = ResponseEntity.ok(service.getComingSoon(from, to, region, genres));
         log.info("<//// ---- /comingsoon ---- ////>[OK]");
