@@ -44,7 +44,7 @@ public class MovieServiceTest {
 	MovieMapper mapper;
 
 	@Mock
-	SVConfig config;
+	SVConfigComing config;
 
 	@InjectMocks
 	private SVSearch svSearch;

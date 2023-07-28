@@ -2,7 +2,7 @@ package com.digitalworlds.grupo2.api.services;
 
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 
-public interface IConfig {
+public interface IConfigComing {
 
     DTOConfigComing getConfigComing(String region);
 

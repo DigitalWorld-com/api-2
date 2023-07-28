@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class SVConfig implements IConfig {
+public class SVConfigComing implements IConfigComing {
 
     IInfo iInfo;
     RConfigComing rConfigComing;

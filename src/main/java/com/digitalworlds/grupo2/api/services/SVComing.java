@@ -16,18 +16,18 @@ import java.util.List;
 @Service
 @Slf4j
 public class SVComing extends MovieService {
-    IConfig iConfig;
+    IConfigComing iConfigComing;
 
-    public SVComing(IHttpService http, RMovie rMovie, IInfo iInfo, IConfig iConfig) {
+    public SVComing(IHttpService http, RMovie rMovie, IInfo iInfo, IConfigComing iConfigComing) {
         super(http, rMovie);
-        this.iConfig = iConfig;
+        this.iConfigComing = iConfigComing;
     }
 
     /**
      * Busca las proximas peliculas
      */
     public MovieResponse getComingSoon(String region) {
-        DTOConfigComing dtoConfigComing = iConfig.getConfigComing(region);
+        DTOConfigComing dtoConfigComing = iConfigComing.getConfigComing(region);
         LocalDate from = LocalDate.now().minusDays(dtoConfigComing.getDays_before());
         LocalDate to = LocalDate.now().plusDays(dtoConfigComing.getDays_after());
 
@@ -56,7 +56,7 @@ public class SVComing extends MovieService {
 
     private String addFilterGenres(String url, Integer[] genres) {
         if (null != genres) {
-            List<DTOGenre> listDTOGenreAll = Arrays.asList(iConfig.getIInfo().getAllGenres());
+            List<DTOGenre> listDTOGenreAll = Arrays.asList(iConfigComing.getIInfo().getAllGenres());
             List<Integer> listSelectedGenres = Arrays.asList(genres);
             Collections.sort(listSelectedGenres);
             boolean allGenres = listDTOGenreAll.stream()
