@@ -3,8 +3,6 @@ package com.digitalworlds.grupo2.api.services;
 import com.digitalworlds.grupo2.api.converters.CVTConfigComingToDTO;
 import com.digitalworlds.grupo2.api.converters.CVTConfigComingToE;
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
-import com.digitalworlds.grupo2.api.dtos.DTOCountry;
-import com.digitalworlds.grupo2.api.dtos.DTOGenre;
 import com.digitalworlds.grupo2.api.entities.EConfigComing;
 import com.digitalworlds.grupo2.api.repositories.RConfigComing;
 import lombok.AllArgsConstructor;
@@ -13,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -21,39 +18,16 @@ import java.util.Optional;
 @Slf4j
 public class SVConfig implements IConfig {
 
-    SVCountry svCountry;
-    SVGenre svGenre;
+    IInfo iInfo;
     RConfigComing rConfigComing;
     ModelMapper modelMapper;
 
     @Override
-    public DTOCountry[] getAllCountries() {
-        return svCountry.getAllCountries();
-    }
-
-    @Override
-    public DTOGenre[] getAllGenres() {
-        return svGenre.getAllGenres();
-    }
-
-    @Override
     public DTOConfigComing getConfigComing(String region) {
-        EConfigComing optEConfigComing = this.getEConfigComing(region);
-
-        /*EConfigComing eDefaultConfigComing;
-        if (optEConfigComing.isPresent()) {
-            eDefaultConfigComing = optEConfigComing.get();
-        } else {
-            eDefaultConfigComing = EConfigComing.builder()
-                    .region(region)
-                    .days_before(7)
-                    .days_after(7)
-                    .build();
-            rConfigComing.save(eDefaultConfigComing);
-        }*/
+        EConfigComing eConfigComing = this.getEConfigComing(region);
 
         modelMapper.addConverter(new CVTConfigComingToDTO());
-        DTOConfigComing dtoConfigComing = modelMapper.map(optEConfigComing, DTOConfigComing.class);
+        DTOConfigComing dtoConfigComing = modelMapper.map(eConfigComing, DTOConfigComing.class);
 
         return dtoConfigComing;
     }
@@ -81,8 +55,13 @@ public class SVConfig implements IConfig {
         return dtoBackUp;
     }
 
+    @Override
+    public IInfo getIInfo() {
+        return iInfo;
+    }
+
     private DTOConfigComing setConfigComing(DTOConfigComing dtoConfigComing) {
-        modelMapper.addConverter(new CVTConfigComingToE());
+        modelMapper.addConverter(new CVTConfigComingToE(iInfo));
         EConfigComing eConfigComing = modelMapper.map(dtoConfigComing, EConfigComing.class);
         rConfigComing.save(eConfigComing);
 
@@ -93,9 +72,6 @@ public class SVConfig implements IConfig {
     }
 
     private EConfigComing getEConfigComing(String region) {
-        Assert.isTrue(
-                Arrays.stream(svCountry.getAllCountries()).anyMatch(dtoCountry -> dtoCountry.getIso_3166_1().equals(region)),
-                "No existe la region solicitada...");
         Optional<EConfigComing> optEConfigComing = rConfigComing.findById(region);
         Assert.isTrue(optEConfigComing.isPresent(), "Debe establecer la configuracion de estrenos para este país previamente...");
         return optEConfigComing.get();

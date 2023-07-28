@@ -1,7 +1,8 @@
 package com.digitalworlds.grupo2.api.controllers;
 
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.services.MovieService;
+import com.digitalworlds.grupo2.api.services.SVComing;
+import com.digitalworlds.grupo2.api.services.SVSearch;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
@@ -18,13 +19,14 @@ import java.time.LocalDate;
 @Slf4j
 public class MovieController {
 
-    MovieService service;
+    SVSearch svSearch;
+    SVComing svComing;
 
     @GetMapping("/movie/{movieName}")
     @ApiOperation("Busca películas por Título")
     public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
         log.info("Buscando pelicula: " + movieName);
-        var response = service.getMoviesByTitle(movieName);
+        var response = svSearch.getMoviesByTitle(movieName);
         log.info("Peliculas encontradas.");
         return ResponseEntity.ok(response);
     }
@@ -37,7 +39,7 @@ public class MovieController {
             @ApiParam(value = "Ej. AR, ES, US, etc.", example = "AR") @RequestParam String region,
             @ApiParam(value = "Ej. [28, 53]", example = "[28, 53]") @RequestParam(required = false) Integer[] genres) {
         log.info("<<<<< ---- /comingsoon ---- >>>>>");
-        ResponseEntity<MovieResponse> response = ResponseEntity.ok(service.getComingSoon(from, to, region, genres));
+        ResponseEntity<MovieResponse> response = ResponseEntity.ok(svComing.getComingSoon(from, to, region, genres));
         log.info("<//// ---- /comingsoon ---- ////>[OK]");
         return response;
     }
@@ -47,7 +49,7 @@ public class MovieController {
     public ResponseEntity<MovieResponse> getComingSoonMovies(
             @ApiParam(value = "Ej. AR, ES, US, etc.", example = "AR") @PathVariable String region) {
         log.info("<<<<< ---- /comingsoon ---- >>>>>");
-        ResponseEntity<MovieResponse> response = ResponseEntity.ok(service.getComingSoon(region));
+        ResponseEntity<MovieResponse> response = ResponseEntity.ok(svComing.getComingSoon(region));
         log.info("<//// ---- /comingsoon ---- ////>[OK]");
         return response;
     }

@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.digitalworlds.grupo2.api.dtos.MovieDto;
 import com.digitalworlds.grupo2.api.dtos.MovieResponse;
-import com.digitalworlds.grupo2.api.services.MovieService;
+import com.digitalworlds.grupo2.api.services.SVSearch;
 
 @WebMvcTest(MovieController.class)
 class MovieControllerTest {
@@ -31,7 +31,7 @@ class MovieControllerTest {
 	private MockMvc mvc;
 
 	@MockBean
-	private MovieService service;
+	private SVSearch svSearch;
 
 	@InjectMocks
 	private MovieController controller;
@@ -55,7 +55,7 @@ class MovieControllerTest {
 	@Test
 	@DisplayName("Cuando busco pelicula por titulo me devuelve una pelicula.")
 	void testGetMoviesByName() throws Exception {
-		when(service.getMoviesByTitle(any())).thenReturn(response);
+		when(svSearch.getMoviesByTitle(any())).thenReturn(response);
 		var jsonResponse = "{\"movies\": [{\"title\": \"pelicula\",\"description\": \"aca hay una peli piola\",\"imageURL\": \"url\"}]}";
 		mvc.perform(get("/api2/movies/movie/pelicula")
 			      .contentType(MediaType.APPLICATION_JSON))

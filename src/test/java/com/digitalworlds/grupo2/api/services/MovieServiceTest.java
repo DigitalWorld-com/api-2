@@ -47,7 +47,10 @@ public class MovieServiceTest {
 	SVConfig config;
 
 	@InjectMocks
-	private MovieService movieService;
+	private SVSearch svSearch;
+
+	@InjectMocks
+	private SVComing svComing;
 
 	@BeforeEach
 	public void setUp() {
@@ -61,7 +64,7 @@ public class MovieServiceTest {
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 		
 		String movieName = "Test Movie";
-		MovieResponse result = movieService.getMoviesByTitle(movieName);
+		MovieResponse result = svSearch.getMoviesByTitle(movieName);
 
 		assertEquals(movieDto, result.getMovies().get(0));
 	}
@@ -75,7 +78,7 @@ public class MovieServiceTest {
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
-		MovieResponse result = movieService.getComingSoon("AR");
+		MovieResponse result = svComing.getComingSoon("AR");
 
 		assertEquals(movieDto, result.getMovies().get(0));
 	}
@@ -98,7 +101,7 @@ public class MovieServiceTest {
 		ArgumentCaptor<List<EMovie>> captor = ArgumentCaptor.forClass(List.class);
 		when(rMovie.saveAll(captor.capture())).thenReturn(new ArrayList<>());
 		
-		MovieResponse result = movieService.getComingSoon("AR");
+		MovieResponse result = svComing.getComingSoon("AR");
 		
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
@@ -126,7 +129,7 @@ public class MovieServiceTest {
 
 		when(rMovie.findByTitle(any())).thenReturn(new ArrayList<>());
 
-		movieService.getComingSoon("AR");
+		svComing.getComingSoon("AR");
 
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
@@ -154,7 +157,7 @@ public class MovieServiceTest {
 
 		when(rMovie.findByTitle(any())).thenReturn(new ArrayList<>());
 
-		movieService.getComingSoon("AR");
+		svComing.getComingSoon("AR");
 
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
