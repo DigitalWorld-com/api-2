@@ -55,11 +55,6 @@ public class SVConfigComing implements IConfigComing {
         return dtoBackUp;
     }
 
-    @Override
-    public IInfo getIInfo() {
-        return iInfo;
-    }
-
     private DTOConfigComing setConfigComing(DTOConfigComing dtoConfigComing) {
         modelMapper.addConverter(new CVTConfigComingToE(iInfo));
         EConfigComing eConfigComing = modelMapper.map(dtoConfigComing, EConfigComing.class);

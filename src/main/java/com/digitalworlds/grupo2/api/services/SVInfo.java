@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,10 +39,22 @@ public class SVInfo implements IInfo {
     @Override
     public void verifyGenre(Integer[] selectedGenres) {
         if (selectedGenres != null && selectedGenres.length > 0) {
-            List<Integer> listSelectedGenres = Arrays.asList(selectedGenres);
+            List<Integer> listSelectedGenres = List.of(selectedGenres);
+            List<Integer> listAllGenresIds = new ArrayList<>();
+            List<DTOGenre> listDTOGenre = List.of(iGenre.getAllGenres());
+            listDTOGenre.stream().forEach(dtoGenre -> listAllGenresIds.add(dtoGenre.getId()));
             Assert.isTrue(
-                    Arrays.stream(iGenre.getAllGenres()).anyMatch(dtoGenre -> listSelectedGenres.contains(selectedGenres)),
+                    listSelectedGenres.stream().allMatch(idGenre -> listAllGenresIds.contains(idGenre)),
                     "Hay géneros inválidos...");
         }
     }
+
+    @Override
+    public boolean isAllGenresSelected(Integer[] selectedGenres) {
+        if (selectedGenres != null && selectedGenres.length > 0) {
+            return selectedGenres.length == iGenre.getAllGenres().length;
+        }
+        return true;
+    }
+
 }

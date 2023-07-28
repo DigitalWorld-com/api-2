@@ -12,6 +12,4 @@ public interface IConfigComing {
 
     DTOConfigComing deleteConfigComing(String region);
 
-    IInfo getIInfo();
-
 }

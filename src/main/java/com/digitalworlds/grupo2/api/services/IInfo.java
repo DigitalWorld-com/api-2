@@ -4,6 +4,7 @@ import com.digitalworlds.grupo2.api.dtos.DTOCountry;
 import com.digitalworlds.grupo2.api.dtos.DTOGenre;
 
 public interface IInfo {
+
     DTOCountry[] getAllCountries();
 
     DTOGenre[] getAllGenres();
@@ -11,4 +12,7 @@ public interface IInfo {
     void verifyCountry(String region);
 
     void verifyGenre(Integer[] selectedGenres);
+
+    public boolean isAllGenresSelected(Integer[] selectedGenres);
+
 }

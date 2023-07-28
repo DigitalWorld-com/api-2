@@ -22,15 +22,17 @@ public class CVTConfigComingToE implements Converter<DTOConfigComing, EConfigCom
         //Verificar que la region y género sean válidos
         iInfo.verifyCountry(source.getRegion());
         iInfo.verifyGenre(source.getSelected_genres());
-
-        //TODO si tiene todos los generos entonces '.selected_genres(null)'
-        // ELIMINAR O REDUCIR 'addFilterGenres'
+        //Si estan todos los generos seleccionados (seria lo mismo que 'cualquiera') se deja en null dicho campo de filtrado)
+        String stringORGenres = null;
+        if (!iInfo.isAllGenresSelected(source.getSelected_genres())) {
+            stringORGenres = StringOR.convert(source.getSelected_genres());
+        }
 
         EConfigComing destination = EConfigComing.builder()
                 .region(source.getRegion())
                 .days_before(source.getDays_before())
                 .days_after(source.getDays_after())
-                .selected_genres(StringOR.convert(source.getSelected_genres()))
+                .selected_genres(stringORGenres)
                 .build();
 
         return destination;
