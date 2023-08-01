@@ -1,7 +1,7 @@
 package com.digitalworlds.grupo2.api.services;
 
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
-import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
 import com.digitalworlds.grupo2.api.util.StringOR;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -23,16 +24,19 @@ public class SVComing extends MovieService {
     /**
      * Busca las proximas peliculas
      */
-    public MovieResponse getComingSoon(String region) {
+    public List<DTOMovie> getComingSoon(String region) {
         DTOConfigComing dtoConfigComing = iConfigComing.getConfigComing(region);
         LocalDate from = LocalDate.now().minusDays(dtoConfigComing.getDays_before());
         LocalDate to = LocalDate.now().plusDays(dtoConfigComing.getDays_after());
         String stringORSelectedGenres = StringOR.convert(dtoConfigComing.getSelected_genres());
 
-        return this.getComingSoon(from, to, region, stringORSelectedGenres);
+        List<DTOMovie> listDtoMovie = this.getComingSoon(from, to, region, stringORSelectedGenres);
+        this.registerMovie(listDtoMovie);
+
+        return listDtoMovie;
     }
 
-    private MovieResponse getComingSoon(LocalDate from, LocalDate to, String region, String genres) {
+    private List<DTOMovie> getComingSoon(LocalDate from, LocalDate to, String region, String genres) {
         log.info("-----------------------");
         log.info("from: " + from);
         log.info("to: " + to);

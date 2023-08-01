@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.digitalworlds.grupo2.api.dtos.MovieDto;
-import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.services.SVSearch;
 
 @WebMvcTest(MovieController.class)
@@ -36,16 +36,13 @@ class MovieControllerTest {
 	@InjectMocks
 	private MovieController controller;
 
-	private MovieResponse response = MovieResponse.builder()
-			.movies(Arrays.asList(
-					MovieDto.builder()
+	private List<DTOMovie> response = Arrays.asList(
+					DTOMovie.builder()
 					.title("pelicula")
 					.imageURL("url")
 					.description("aca hay una peli piola")
 					.build()
-					)
-			)
-			.build();
+					);
 
 	@BeforeEach
 	public void setUp() throws URISyntaxException {

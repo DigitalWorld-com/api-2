@@ -17,11 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.digitalworlds.grupo2.api.dtos.MovieDto;
-import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
-import com.digitalworlds.grupo2.api.mappers.MovieMapper;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
 
 @SuppressWarnings("unchecked")
@@ -29,7 +27,7 @@ public class MovieServiceTest {
 
 	private static final String mockResponse = "{\"results\": [{\"title\": \"Movie 1\", \"overview\": \"Description 1\", \"poster_path\": \"/image1.jpg\"}]}";
 
-	private static final MovieDto movieDto = MovieDto.builder().title("Movie 1").description("Description 1")
+	private static final DTOMovie movieDto = DTOMovie.builder().title("Movie 1").description("Description 1")
 			.imageURL("https://image.tmdb.org/t/p/original/image1.jpg").build();
 
 	private static final String LONG_DESC = "En un mundo postapocalíptico, un grupo de supervivientes lucha por sobrevivir en un paisaje devastado. Con recursos limitados y en constante peligro, deberán enfrentarse a desafíos mortales mientras buscan un refugio seguro. Una historia de valentía, esperanza y la lucha por la supervivencia en medio de la adversidad. ¿Podrán encontrar la salvación o sucumbirán a las amenazas que acechan en cada esquina? Un emocionante viaje lleno de acción, suspenso y giros inesperados.";
@@ -39,9 +37,6 @@ public class MovieServiceTest {
 
 	@Mock
 	private RMovie rMovie;
-
-	@Mock
-	MovieMapper mapper;
 
 	@Mock
 	SVConfigComing config;
@@ -64,9 +59,9 @@ public class MovieServiceTest {
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 		
 		String movieName = "Test Movie";
-		MovieResponse result = svSearch.getMoviesByTitle(movieName);
+		List<DTOMovie> result = svSearch.getMoviesByTitle(movieName);
 
-		assertEquals(movieDto, result.getMovies().get(0));
+		assertEquals(movieDto, result.get(0));
 	}
 
 	@Test
@@ -78,9 +73,9 @@ public class MovieServiceTest {
 		when(httpService.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
-		MovieResponse result = svComing.getComingSoon("AR");
+		List<DTOMovie> result = svComing.getComingSoon("AR");
 
-		assertEquals(movieDto, result.getMovies().get(0));
+		assertEquals(movieDto, result.get(0));
 	}
 
 	@Test
@@ -100,15 +95,15 @@ public class MovieServiceTest {
 		
 		ArgumentCaptor<List<EMovie>> captor = ArgumentCaptor.forClass(List.class);
 		when(rMovie.saveAll(captor.capture())).thenReturn(new ArrayList<>());
-		
-		MovieResponse result = svComing.getComingSoon("AR");
+
+		List<DTOMovie> result = svComing.getComingSoon("AR");
 		
 		// Verificamos lo que se capturo
 		List<EMovie> savedMovies = captor.getValue();
 		assertEquals(0, savedMovies.size());
 		
 
-		assertEquals(movieDto, result.getMovies().get(0));
+		assertEquals(movieDto, result.get(0));
 	}
 
 	@Test

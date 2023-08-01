@@ -1,6 +1,6 @@
 package com.digitalworlds.grupo2.api.controllers;
 
-import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.services.SVComing;
 import com.digitalworlds.grupo2.api.services.SVSearch;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api2/movies")
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class MovieController {
 
     @GetMapping("/movie/{movieName}")
     @ApiOperation("Busca películas por Título")
-    public ResponseEntity<MovieResponse> getMoviesByName(@PathVariable String movieName) {
+    public ResponseEntity<List<DTOMovie>> getMoviesByName(@PathVariable String movieName) {
         log.info("Buscando pelicula: " + movieName);
         var response = svSearch.getMoviesByTitle(movieName);
         log.info("Peliculas encontradas.");
@@ -33,10 +35,10 @@ public class MovieController {
 
     @GetMapping("/comingsoon/{region}")
     @ApiOperation("Obtiene los próximos estrenos de Cine (requiere configurar el país previamente)")
-    public ResponseEntity<MovieResponse> getComingSoonMovies(
+    public ResponseEntity<List<DTOMovie>> getComingSoonMovies(
             @ApiParam(value = "Ej. AR, ES, US, etc.", example = "AR") @PathVariable String region) {
         log.info("<<<<< ---- [GET]/comingsoon ---- >>>>>");
-        ResponseEntity<MovieResponse> response = ResponseEntity.ok(svComing.getComingSoon(region));
+        var response = ResponseEntity.ok(svComing.getComingSoon(region));
         log.info("<//// ---- [GET]/comingsoon ---- ////>[OK]");
         return response;
     }

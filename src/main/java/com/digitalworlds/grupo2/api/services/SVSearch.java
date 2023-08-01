@@ -1,9 +1,11 @@
 package com.digitalworlds.grupo2.api.services;
 
-import com.digitalworlds.grupo2.api.dtos.MovieResponse;
+import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,7 +23,7 @@ public class SVSearch extends MovieService {
      *
      * @param
      */
-    public MovieResponse getMoviesByTitle(String movieName) {
+    public List<DTOMovie> getMoviesByTitle(String movieName) {
         var url = "https://api.themoviedb.org/3/search/movie?query=" + movieName
                 + "&include_adult=false"
                 + "&language=es"
