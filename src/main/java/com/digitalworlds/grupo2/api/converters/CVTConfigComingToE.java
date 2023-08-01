@@ -3,7 +3,7 @@ package com.digitalworlds.grupo2.api.converters;
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 import com.digitalworlds.grupo2.api.entities.EConfigComing;
 import com.digitalworlds.grupo2.api.services.IInfo;
-import com.digitalworlds.grupo2.api.util.StringOR;
+import com.digitalworlds.grupo2.api.util.UtilCvt;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
@@ -25,7 +25,7 @@ public class CVTConfigComingToE implements Converter<DTOConfigComing, EConfigCom
         //Si estan todos los generos seleccionados (seria lo mismo que 'cualquiera') se deja en null dicho campo de filtrado)
         String stringORGenres = null;
         if (!iInfo.isAllGenresSelected(source.getSelected_genres())) {
-            stringORGenres = StringOR.convert(source.getSelected_genres());
+            stringORGenres = UtilCvt.strORConvert(source.getSelected_genres());
         }
 
         EConfigComing destination = EConfigComing.builder()

@@ -3,7 +3,7 @@ package com.digitalworlds.grupo2.api.services;
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
-import com.digitalworlds.grupo2.api.util.StringOR;
+import com.digitalworlds.grupo2.api.util.UtilCvt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class SVComing extends MovieService {
-    IConfigComing iConfigComing;
+    private IConfigComing iConfigComing;
 
     public SVComing(IHttpService http, RMovie rMovie, IConfigComing iConfigComing) {
         super(http, rMovie);
@@ -28,7 +28,7 @@ public class SVComing extends MovieService {
         DTOConfigComing dtoConfigComing = iConfigComing.getConfigComing(region);
         LocalDate from = LocalDate.now().minusDays(dtoConfigComing.getDays_before());
         LocalDate to = LocalDate.now().plusDays(dtoConfigComing.getDays_after());
-        String stringORSelectedGenres = StringOR.convert(dtoConfigComing.getSelected_genres());
+        String stringORSelectedGenres = UtilCvt.strORConvert(dtoConfigComing.getSelected_genres());
 
         List<DTOMovie> listDtoMovie = this.getComingSoon(from, to, region, stringORSelectedGenres);
         this.registerMovie(listDtoMovie);

@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 public class SVSearch extends MovieService {
 
-    IInfo iInfo;
+    private IInfo iInfo;
 
     public SVSearch(IHttpService http, RMovie rMovie, IInfo iInfo) {
         super(http, rMovie);
@@ -29,9 +29,13 @@ public class SVSearch extends MovieService {
                 + "&language=es"
                 + "&page=1";
 
-        //filter by GENRES
+        List<DTOMovie> listDtoMovie = this.getMoviesByUrl(url);
 
-        return getMoviesByUrl(url);
+        //TODO filter by GENRES
+        // add dtoMovie & Movies: int [] genres
+        // genres.contains(arg_selectedGenres)
+
+        return listDtoMovie;
     }
 
 }

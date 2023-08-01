@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class SVInfo implements IInfo {
-    ICountry iCountry;
-    IGenre iGenre;
+    private ICountry iCountry;
+    private IGenre iGenre;
 
     @Override
     public DTOCountry[] getAllCountries() {

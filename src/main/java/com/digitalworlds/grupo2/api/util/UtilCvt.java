@@ -1,5 +1,8 @@
 package com.digitalworlds.grupo2.api.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,9 +10,12 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class StringOR {
+public final class UtilCvt {
 
-    public static String convert(Integer[] arrayInteger) {
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    public static final ModelMapper MODEL_MAPPER = new ModelMapper();
+
+    public static String strORConvert(Integer[] arrayInteger) {
         //convert [28, 53] to "28|53"
         String stringOR = null;
         if (arrayInteger != null && arrayInteger.length > 0) {
@@ -24,7 +30,7 @@ public class StringOR {
         return stringOR;
     }
 
-    public static Integer[] convert(String stringOR) {
+    public static Integer[] strORConvert(String stringOR) {
         //convert "28|53" to [28, 53]
         Integer[] arrayInteger = null;
         if (stringOR != null && !stringOR.trim().isEmpty()) {

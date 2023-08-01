@@ -5,11 +5,10 @@ import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.models.Movie;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
+import com.digitalworlds.grupo2.api.util.UtilCvt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ public abstract class MovieService {
 
     private IHttpService http;
     private RMovie rMovie;
-    private ObjectMapper oMapper = new ObjectMapper();
-    private ModelMapper mMapper = new ModelMapper();
     private TypeReference<List<Movie>> typeListMovie = new TypeReference<>() {
     };
 
@@ -35,12 +32,12 @@ public abstract class MovieService {
         try {
             String bodyResponse = http.getBody(url);
 
-            String strArrayMovies = oMapper.readTree(bodyResponse).get("results").toString();
-            List<Movie> listMovie = oMapper.readValue(strArrayMovies, typeListMovie);
+            String strArrayMovies = UtilCvt.OBJECT_MAPPER.readTree(bodyResponse).get("results").toString();
+            List<Movie> listMovie = UtilCvt.OBJECT_MAPPER.readValue(strArrayMovies, typeListMovie);
 
-            mMapper.addConverter(new CVTMovie());
+            UtilCvt.MODEL_MAPPER.addConverter(new CVTMovie());
             List<DTOMovie> listDtoMovie = listMovie.stream()
-                    .map(user -> mMapper.map(user, DTOMovie.class))
+                    .map(user -> UtilCvt.MODEL_MAPPER.map(user, DTOMovie.class))
                     .collect(Collectors.toList());
 
             return listDtoMovie;

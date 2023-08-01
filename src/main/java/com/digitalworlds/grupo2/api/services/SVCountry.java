@@ -2,11 +2,10 @@ package com.digitalworlds.grupo2.api.services;
 
 import com.digitalworlds.grupo2.api.dtos.DTOCountry;
 import com.digitalworlds.grupo2.api.models.Country;
+import com.digitalworlds.grupo2.api.util.UtilCvt;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 public class SVCountry implements ICountry {
 
     private IHttpService http;
-    private ObjectMapper oMapper;
-    private ModelMapper mMapper;
     private ResourceLoader resourceLoader;
 
     @Override
@@ -31,8 +28,8 @@ public class SVCountry implements ICountry {
         try {
             String bodyResponse = http.getBody("https://api.themoviedb.org/3/configuration/countries");
 
-            Country[] arrayCountry = oMapper.readValue(bodyResponse, Country[].class);
-            DTOCountry[] arrayDtoCountry = mMapper.map(arrayCountry, DTOCountry[].class);
+            Country[] arrayCountry = UtilCvt.OBJECT_MAPPER.readValue(bodyResponse, Country[].class);
+            DTOCountry[] arrayDtoCountry = UtilCvt.MODEL_MAPPER.map(arrayCountry, DTOCountry[].class);
 
             //Agrego icono de bandera
             List<DTOCountry> listDtoCountry = Arrays.asList(arrayDtoCountry);
