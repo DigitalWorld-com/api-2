@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class SVHttp implements IHttp {
 
 	@Value("${moviedb.token}")
-	String token;
+	private String token;
 
 	@Override
 	public String getBody(String url) {

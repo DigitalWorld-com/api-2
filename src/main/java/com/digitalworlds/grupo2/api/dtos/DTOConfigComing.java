@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DTOConfigComing {
 
-    String region;
-    int days_before;
-    int days_after;
-    Integer[] selected_genres;
+    private String region;
+    private int days_before;
+    private int days_after;
+    private Integer[] selected_genres;
 
 }

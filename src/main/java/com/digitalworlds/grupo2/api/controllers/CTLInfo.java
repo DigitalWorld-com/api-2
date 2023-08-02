@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CTLInfo {
 
-    SVInfo svInfo;
+    private SVInfo svInfo;
 
     @GetMapping("/country")
     @ApiOperation("Obtiene las regiones (ISO 3166-1) y sus respectivas banderas")

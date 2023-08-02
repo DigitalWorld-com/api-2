@@ -20,10 +20,10 @@ public class EMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    LocalDateTime insertDate;
-    String title;
-    String description;
-    String image;
+    private Long id;
+    private LocalDateTime insertDate;
+    private String title;
+    private String description;
+    private String image;
 
 }

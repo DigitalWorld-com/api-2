@@ -16,9 +16,9 @@ import javax.persistence.Id;
 public class EConfigComing {
 
     @Id
-    String region;
-    int days_before;
-    int days_after;
-    String selected_genres;
+    private String region;
+    private int days_before;
+    private int days_after;
+    private String selected_genres;
 
 }

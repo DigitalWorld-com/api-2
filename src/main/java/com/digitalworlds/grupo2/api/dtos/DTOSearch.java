@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DTOSearch {
 
-    String search_keywords;
-    Integer year_release;
-    Integer[] selected_genres;
+    private String search_keywords;
+    private Integer year_release;
+    private Integer[] selected_genres;
 
 }

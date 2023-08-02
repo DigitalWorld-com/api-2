@@ -11,7 +11,7 @@ import org.modelmapper.spi.MappingContext;
 @AllArgsConstructor
 public class CVTConfigComingToE implements Converter<DTOConfigComing, EConfigComing> {
 
-    IInfo iInfo;
+    private IInfo iInfo;
 
     @Override
     public EConfigComing convert(MappingContext<DTOConfigComing, EConfigComing> context) {

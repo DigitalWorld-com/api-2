@@ -20,10 +20,10 @@ public class ESearch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    LocalDateTime at;
-    String search_keywords;
-    Integer year_release;
-    String selected_genres;
+    private Long id;
+    private LocalDateTime at;
+    private String search_keywords;
+    private Integer year_release;
+    private String selected_genres;
 
 }

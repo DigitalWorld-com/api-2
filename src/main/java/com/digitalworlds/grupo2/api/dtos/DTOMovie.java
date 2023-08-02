@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DTOMovie {
 
-    String title;
-    String description;
-    String imageURL;
-    Integer[] genreIds;
+    private String title;
+    private String description;
+    private String imageURL;
+    private Integer[] genreIds;
 
 }

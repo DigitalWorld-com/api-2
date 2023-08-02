@@ -11,9 +11,9 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
-    String title;
-    String overview;
-    String poster_path;
-    Integer[] genre_ids;
+    private String title;
+    private String overview;
+    private String poster_path;
+    private Integer[] genre_ids;
 
 }

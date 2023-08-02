@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CVTSearchToE implements Converter<DTOSearch, ESearch> {
 
-    IInfo iInfo;
+    private IInfo iInfo;
 
     @Override
     public ESearch convert(MappingContext<DTOSearch, ESearch> context) {

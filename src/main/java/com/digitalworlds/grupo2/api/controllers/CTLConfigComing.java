@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class CTLConfigComing {
 
-    IConfigComing iConfigComing;
+    private IConfigComing iConfigComing;
 
     @GetMapping("/coming/{region}")
     @ApiOperation("Obtiene la configuración (de un país) utilizada para obtener estrenos")
