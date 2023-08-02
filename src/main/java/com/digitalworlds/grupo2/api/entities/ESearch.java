@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Builder
-@Entity(name = "CONFIG_SEARCH")
+@Entity(name = "SEARCH")
 public class ESearch {
 
     @Id
