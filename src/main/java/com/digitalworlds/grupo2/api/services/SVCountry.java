@@ -10,7 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,10 +48,10 @@ public class SVCountry implements ICountry {
     }
 
     private void setCountryFlag(DTOCountry dtoCountry) {
-        try {
-            byte[] imgAsBytes = Files.readAllBytes(resourceLoader.getResource(
-                    "classpath:country-flags/" + dtoCountry.getIso_3166_1() + ".png").getFile().toPath());
-            dtoCountry.setCountryFlag(imgAsBytes);
+        try (InputStream inputStream = getClass().getResourceAsStream("/country-flags/" + dtoCountry.getIso_3166_1() + ".png")) {
+            if (inputStream != null) {
+                dtoCountry.setCountryFlag(inputStream.readAllBytes());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
