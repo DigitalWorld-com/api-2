@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -31,20 +31,21 @@ public class SVInfo implements IInfo {
 
     @Override
     public void verifyCountry(String region) {
-        Assert.isTrue(
-                Arrays.stream(iCountry.getAllCountries()).anyMatch(dtoCountry -> dtoCountry.getIso_3166_1().equals(region)),
+        Assert.isTrue(Stream.of(iCountry.getAllCountries())
+                        .anyMatch(dtoCountry -> dtoCountry.getIso_3166_1().equals(region)),
                 "No existe la region solicitada...");
     }
 
     @Override
     public void verifyGenre(Integer[] selectedGenres) {
         if (selectedGenres != null && selectedGenres.length > 0) {
+            List<Integer> listAllGenres = Stream.of(iGenre.getAllGenres())
+                    .map(DTOGenre::getId)
+                    .collect(Collectors.toList());
+
             List<Integer> listSelectedGenres = List.of(selectedGenres);
-            List<Integer> listAllGenresIds = new ArrayList<>();
-            List<DTOGenre> listDTOGenre = List.of(iGenre.getAllGenres());
-            listDTOGenre.stream().forEach(dtoGenre -> listAllGenresIds.add(dtoGenre.getId()));
-            Assert.isTrue(
-                    listSelectedGenres.stream().allMatch(idGenre -> listAllGenresIds.contains(idGenre)),
+
+            Assert.isTrue(listAllGenres.containsAll(listSelectedGenres),
                     "Hay géneros inválidos...");
         }
     }
