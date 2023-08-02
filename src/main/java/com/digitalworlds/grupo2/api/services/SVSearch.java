@@ -54,6 +54,8 @@ public class SVSearch extends SVMovie {
 
         this.filterByGenres(dtoSearch, listDtoMovie);
 
+        this.registerMovie(listDtoMovie);
+
         return listDtoMovie;
     }
 
