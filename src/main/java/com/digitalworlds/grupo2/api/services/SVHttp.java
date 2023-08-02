@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Service
 @NoArgsConstructor
 @AllArgsConstructor
-public class HttpService implements IHttpService {
+public class SVHttp implements IHttp {
 
 	@Value("${moviedb.token}")
 	String token;

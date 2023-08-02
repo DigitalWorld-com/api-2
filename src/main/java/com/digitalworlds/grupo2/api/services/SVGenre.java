@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SVGenre implements IGenre {
 
-    private IHttpService http;
+    private IHttp http;
 
     @Override
     public DTOGenre[] getAllGenres() {

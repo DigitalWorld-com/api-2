@@ -24,7 +24,7 @@ import com.digitalworlds.grupo2.api.repositories.RMovie;
 import com.digitalworlds.grupo2.api.repositories.RSearch;
 
 @SuppressWarnings("unchecked")
-public class MovieServiceTest {
+public class SVMovieTest {
 
 	private static final String mockResponse = "{\"results\": [{\"title\": \"Movie 1\", \"overview\": \"Description 1\", \"poster_path\": \"/image1.jpg\"}]}";
 
@@ -34,7 +34,7 @@ public class MovieServiceTest {
 	private static final String LONG_DESC = "En un mundo postapocalíptico, un grupo de supervivientes lucha por sobrevivir en un paisaje devastado. Con recursos limitados y en constante peligro, deberán enfrentarse a desafíos mortales mientras buscan un refugio seguro. Una historia de valentía, esperanza y la lucha por la supervivencia en medio de la adversidad. ¿Podrán encontrar la salvación o sucumbirán a las amenazas que acechan en cada esquina? Un emocionante viaje lleno de acción, suspenso y giros inesperados.";
 
 	@Mock
-	private HttpService httpService;
+	private SVHttp svHttp;
 
 	@Mock
 	private RMovie rMovie;
@@ -62,7 +62,7 @@ public class MovieServiceTest {
 	@Test
 	@DisplayName("El Servicio devuelve una pelicula buscada por nombre.")
 	public void testGetMoviesByTitle() {
-		when(httpService.getBody(any())).thenReturn(mockResponse);
+		when(svHttp.getBody(any())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 		
 		String movieName = "Test Movie";
@@ -77,7 +77,7 @@ public class MovieServiceTest {
 		var region = "AR";
 		when(config.getConfigComing(region))
 				.thenReturn(DTOConfigComing.builder().region(region).days_before(7).days_after(7).build());
-		when(httpService.getBody(anyString())).thenReturn(mockResponse);
+		when(svHttp.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 
 		List<DTOMovie> result = svComing.getComingSoon("AR");
@@ -94,7 +94,7 @@ public class MovieServiceTest {
                     .days_before(7)
                     .days_after(7)
                     .build());
-		when(httpService.getBody(anyString())).thenReturn(mockResponse);
+		when(svHttp.getBody(anyString())).thenReturn(mockResponse);
 		when(rMovie.saveAll(any())).thenReturn(new ArrayList<>());
 		when(rMovie.findByTitle(any())).thenReturn(Arrays.asList(EMovie.builder().build()));
 		
@@ -123,7 +123,7 @@ public class MovieServiceTest {
                     .days_after(7)
                     .build());
 		
-		when(httpService.getBody(anyString())).thenReturn(mockResponse);
+		when(svHttp.getBody(anyString())).thenReturn(mockResponse);
 
 		// Capturamos lo que le pasamos al saveAll
 		ArgumentCaptor<List<EMovie>> captor = ArgumentCaptor.forClass(List.class);
@@ -151,7 +151,7 @@ public class MovieServiceTest {
 
 		String mockResponseLongDescription = "{\"results\": [{\"title\": \"Movie 1\", \"overview\": \"" + LONG_DESC
 				+ "\", \"poster_path\": \"/image1.jpg\"}]}";
-		when(httpService.getBody(anyString())).thenReturn(mockResponseLongDescription);
+		when(svHttp.getBody(anyString())).thenReturn(mockResponseLongDescription);
 
 		// Capturamos lo que le pasamos al saveAll
 		ArgumentCaptor<List<EMovie>> captor = ArgumentCaptor.forClass(List.class);

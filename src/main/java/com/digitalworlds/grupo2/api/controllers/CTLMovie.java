@@ -17,10 +17,10 @@ import java.util.List;
 @RequestMapping("/api2/movies")
 @AllArgsConstructor
 @Slf4j
-public class MovieController {
+public class CTLMovie {
 
-    SVSearch svSearch;
-    SVComing svComing;
+    private SVSearch svSearch;
+    private SVComing svComing;
 
     @GetMapping("/movie/{movieName}")
     @ApiOperation("Busca películas por Título")

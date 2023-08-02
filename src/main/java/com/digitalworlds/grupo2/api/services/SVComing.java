@@ -13,10 +13,11 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SVComing extends MovieService {
+public class SVComing extends SVMovie {
+
     private IConfigComing iConfigComing;
 
-    public SVComing(IHttpService http, RMovie rMovie, IConfigComing iConfigComing) {
+    public SVComing(IHttp http, RMovie rMovie, IConfigComing iConfigComing) {
         super(http, rMovie);
         this.iConfigComing = iConfigComing;
     }

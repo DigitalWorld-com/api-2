@@ -18,12 +18,12 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j
-public class SVSearch extends MovieService {
+public class SVSearch extends SVMovie {
 
     private IInfo iInfo;
     private RSearch rSearch;
 
-    public SVSearch(IHttpService http, RMovie rMovie, IInfo iInfo, RSearch rSearch) {
+    public SVSearch(IHttp http, RMovie rMovie, IInfo iInfo, RSearch rSearch) {
         super(http, rMovie);
         this.iInfo = iInfo;
         this.rSearch = rSearch;

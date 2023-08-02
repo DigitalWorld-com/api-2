@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public abstract class MovieService {
+public abstract class SVMovie {
 
-    private IHttpService http;
+    private IHttp http;
     private RMovie rMovie;
     private TypeReference<List<Movie>> typeListMovie = new TypeReference<>() {
     };
 
-    public MovieService(IHttpService http, RMovie rMovie) {
+    public SVMovie(IHttp http, RMovie rMovie) {
         this.http = http;
         this.rMovie = rMovie;
     }

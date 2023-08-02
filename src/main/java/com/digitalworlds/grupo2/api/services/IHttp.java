@@ -1,6 +1,6 @@
 package com.digitalworlds.grupo2.api.services;
 
-public interface IHttpService {
+public interface IHttp {
 
 	String getBody(String url);
 }

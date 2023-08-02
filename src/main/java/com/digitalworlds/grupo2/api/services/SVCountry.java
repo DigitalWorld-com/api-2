@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SVCountry implements ICountry {
 
-    private IHttpService http;
+    private IHttp http;
     private ResourceLoader resourceLoader;
 
     @Override
