@@ -1,20 +1,19 @@
 package com.digitalworlds.grupo2.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
-	String title;
-	String overview;
-	String poster_path;
+    String title;
+    String overview;
+    String poster_path;
+    Integer[] genre_ids;
+
 }

@@ -21,6 +21,7 @@ import com.digitalworlds.grupo2.api.dtos.DTOMovie;
 import com.digitalworlds.grupo2.api.dtos.DTOConfigComing;
 import com.digitalworlds.grupo2.api.entities.EMovie;
 import com.digitalworlds.grupo2.api.repositories.RMovie;
+import com.digitalworlds.grupo2.api.repositories.RSearch;
 
 @SuppressWarnings("unchecked")
 public class MovieServiceTest {
@@ -37,6 +38,12 @@ public class MovieServiceTest {
 
 	@Mock
 	private RMovie rMovie;
+
+    @Mock
+	private RSearch rSearch;
+
+    @Mock
+    private IInfo iInfo;
 
 	@Mock
 	SVConfigComing config;

@@ -16,7 +16,8 @@ public class CVTMovie implements Converter<Movie, DTOMovie> {
         DTOMovie destination = DTOMovie.builder()
                 .title(source.getTitle())
                 .description(source.getOverview())
-                .imageURL(URL_BASE + source.getPoster_path()).build();
+                .imageURL(URL_BASE + source.getPoster_path())
+                .genreIds(source.getGenre_ids()).build();
 
         return destination;
     }

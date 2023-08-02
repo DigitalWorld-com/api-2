@@ -23,7 +23,7 @@ public class ESearch {
     Long id;
     LocalDateTime at;
     String search_keywords;
-    int year_release;
+    Integer year_release;
     String selected_genres;
 
 }

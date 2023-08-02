@@ -11,6 +11,5 @@ public class DTOGenre {
 
     private int id;
     private String name;
-    boolean selected;
 
 }

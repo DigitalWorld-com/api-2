@@ -61,7 +61,7 @@ public class SVConfigComing implements IConfigComing {
 
         //dtoAfterSave
         UtilCvt.MODEL_MAPPER.addConverter(new CVTConfigComingToDTO());
-        DTOConfigComing dtoAfterSave = UtilCvt.MODEL_MAPPER.map(this.getEConfigComing(dtoConfigComing.getRegion()), DTOConfigComing.class);
+        DTOConfigComing dtoAfterSave = UtilCvt.MODEL_MAPPER.map(eConfigComing, DTOConfigComing.class);
         return dtoAfterSave;
     }
 

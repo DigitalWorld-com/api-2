@@ -13,6 +13,6 @@ public interface IInfo {
 
     void verifyGenre(Integer[] selectedGenres);
 
-    public boolean isAllGenresSelected(Integer[] selectedGenres);
+    boolean isAllGenresSelected(Integer[] selectedGenres);
 
 }
