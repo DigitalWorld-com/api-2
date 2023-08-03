@@ -22,7 +22,7 @@ public class CTLMovie {
     private SVSearch svSearch;
     private SVComing svComing;
 
-    @GetMapping("/movie/{movieName}")
+    @GetMapping("/search/{movieName}")
     @ApiOperation("Busca películas por Título")
     public ResponseEntity<List<DTOMovie>> getMoviesByName(@PathVariable String movieName) {
         log.info("Buscando pelicula: " + movieName);
@@ -31,7 +31,7 @@ public class CTLMovie {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/movie")
+    @PostMapping("/search")
     @ApiOperation("Busca películas por Título y permite filtrar por año de lanzamiento y géneros")
     public ResponseEntity<List<DTOMovie>> getMoviesByName(@RequestBody DTOSearch dtoSearch) {
         log.info("<<<<< ---- [POST]/movie ---- >>>>>");
