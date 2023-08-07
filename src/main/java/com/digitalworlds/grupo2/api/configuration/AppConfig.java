@@ -22,7 +22,7 @@ public class AppConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api2/**").allowedOrigins("http://localhost:5173")
+                registry.addMapping("/api2/**").allowedOrigins("http://localhost:5173", "http://127.0.0.1:5173")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").maxAge(3600);
             }
         };
@@ -40,7 +40,7 @@ public class AppConfig {
 
     ApiInfo swaggerApiInfo() {
         return new ApiInfoBuilder()
-                .title("HOYTS CINEMA")
+                .title("GATIVIDEO VHS")
                 .description("Puedes buscar películas rápidamente y obtener su poster y sinopsis!\n" +
                         "Ademas te enteraras de los próximos estrenos, no te los pierdas!")
                 .license("(API themoviedb)")

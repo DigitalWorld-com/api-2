@@ -13,10 +13,13 @@ public class CVTMovie implements Converter<Movie, DTOMovie> {
     public DTOMovie convert(MappingContext<Movie, DTOMovie> context) {
         Movie source = context.getSource();
 
+        String imageURL = source.getPoster_path() == null ? null :
+                URL_BASE + source.getPoster_path();
+
         DTOMovie destination = DTOMovie.builder()
                 .title(source.getTitle())
                 .description(source.getOverview())
-                .imageURL(URL_BASE + source.getPoster_path())
+                .imageURL(imageURL)
                 .genreIds(source.getGenre_ids()).build();
 
         return destination;
